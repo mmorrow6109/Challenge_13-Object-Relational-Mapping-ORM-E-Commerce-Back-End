@@ -25,7 +25,7 @@ Product.belongsToMany(Tag, {
   onDelete: 'CASCADE', // if a product is deleted, it will delete the product_tag as well
 });
 
-// Tags belongToMany Products (through ProductTag)
+// Tags belongToMany (many to many) Products (through ProductTag)
 Tag.belongsToMany(Product, {
   through: ProductTag,
   foreignKey: 'tag_id',
