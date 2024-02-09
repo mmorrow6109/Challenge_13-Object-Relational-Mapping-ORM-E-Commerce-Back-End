@@ -1,40 +1,29 @@
-// import models
-const Product = require('./product');
-const Category = require('./category');
-const Tag = require('./tag');
-const ProductTag = require('./product-tag');
+const { Model, DataTypes } = require('sequelize');
 
-//Defining the relationships, or associations between the models
+const sequelize = require('../config/connection.js');
 
-// Products belongsTo (one to one) Category
-Product.belongsTo(Category, {
-  foreignKey: 'category_id',
-  onDelete: 'CASCADE', // if a category is deleted, so are the products in that category
-});
+class Category extends Model {}
 
-// Categories have many (one to many) Products
-Category.hasMany(Product, {
-  foreignKey: 'category_id',
-  onDelete: 'CASCADE', // if a category is deleted, so are the products in that category
-});
+Category.init(
+    {
+        id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        category_name: {
+            type: DataTypes.STRING,
+            allowNull: false
+        }
+    },
+    {
+        sequelize,
+        timestamps: false,
+        freezeTableName: true,
+        underscored: true,
+        modelName: 'category',
+    }
+);
 
-// Products belongToMany (many to many) Tags (through ProductTag)
-Product.belongsToMany(Tag, {
-  through: ProductTag,
-  foreignKey: 'product_id',
-  onDelete: 'CASCADE', // if a product is deleted, it will delete the product_tag as well
-});
-
-// Tags belongToMany (many to many) Products (through ProductTag)
-Tag.belongsToMany(Product, {
-  through: ProductTag,
-  foreignKey: 'tag_id',
-  onDelete: 'CASCADE', // if a tag is deleted, it will delete the product_tag as well
-});
-
-module.exports = {
-  Product,
-  Category,
-  Tag,
-  ProductTag,
-};
+module.exports = Category;
