@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
     });
     res.status(200).json(categoryData);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(err); // 500 status code means server error
   }
 });
 
@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
     const categoryData = await Category.create(req.body);
     res.status(200).json(categoryData);
   } catch (err) {
-    res.status(400).json(err);
+    res.status(400).json(err); // 400 status code means user error
   }
 });
 
